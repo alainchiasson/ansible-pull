@@ -13,4 +13,4 @@
   - name: Create ansible inventory file
     copy:
       dest: /etc/ansible/hosts
-      content: "localhost"
+      content: "localhost.localdoamin"
