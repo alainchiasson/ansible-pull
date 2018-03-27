@@ -1,0 +1,8 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: Install Ansible from Yum
+    package:
+      name: ansible
+      state: present
