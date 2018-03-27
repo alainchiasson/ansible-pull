@@ -1,9 +1,5 @@
 ---
-- hosts: localhost.localdomain
+- hosts: all
   become: true
   tasks:
-  - name: Create test file
-    file::
-      name: /tmp/test
-      state: present
-      content: "I was here"
+    - debug: msg: "Testing with ansible pull"

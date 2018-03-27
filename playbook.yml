@@ -2,7 +2,15 @@
 - hosts: all
   become: true
   tasks:
+  - name: Install GIT required for ansible-pull
+    package:
+      name: git
+      state: present
   - name: Install Ansible from Yum
     package:
       name: ansible
       state: present
+  - name: Create ansible inventory file
+    copy:
+      dest: /etc/ansible/hosts
+      content: "localhost"
