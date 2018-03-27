@@ -9,7 +9,7 @@ This is a simple test for ansible pull to see what works:
 - run
 
 ```
-ansible-pull -U https://github.com/alainchiasson/ansible-pull.git --full -i localhost,
+ansible-pull -U https://github.com/alainchiasson/ansible-pull.git -i localhost,
 ```
 
 Just replace the git repo with your own.
