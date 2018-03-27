@@ -2,6 +2,6 @@
 - hosts: all
   become: true
   tasks:
-    - name:
-        debug:
-          msg: "Testing with ansible pull"
+  - name: Drop a name
+      debug:
+        msg: "Testing with ansible pull"
