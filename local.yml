@@ -4,4 +4,4 @@
   tasks:
   - name: Drop a name
     debug:
-      msg: "Testing with ansible-pull local"
+      msg: "Testing with ansible-pull - local.yml"

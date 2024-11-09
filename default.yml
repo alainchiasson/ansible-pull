@@ -4,4 +4,4 @@
   tasks:
   - name: Drop a name
     debug:
-      msg: "Testing with ansible-pull default"
+      msg: "Testing with ansible-pull - default.yml"
