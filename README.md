@@ -2,6 +2,11 @@
 
 This is a simple test for ansible pull to see what works:
 
+On the machine it is required to have Ansible, Git and dependancies. 
+
+## Local Vagrant setup
+
+
 - For this repo.
 - Clone the new repo localy
 - cd in the directory
@@ -13,6 +18,5 @@ ansible-pull -U https://github.com/alainchiasson/ansible-pull.git -i localhost,
 ```
 
 Just replace the git repo with your own.
-
 
 This will clone your repo, and run localhost.yaml on the system.
