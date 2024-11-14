@@ -32,7 +32,9 @@
   tasks:
 
     - name: "setup hostname and timezone"
-      cervoevo.homelab.base: 
+      include_role:
+        name: cervoevo.homelab.base
+      vars:
         hostname: "{{ system.hostname }}"
         timezone: "{{ system.timezone }}"
 
