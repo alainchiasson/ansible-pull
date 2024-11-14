@@ -31,10 +31,8 @@
 
   tasks:
 
-    - name: "Include base role"
-      ansible.builtin.include_role: 
-        name: base
-      vars:
+    - name: "setup hostname and timezone"
+      cervoevo.homelab.base: 
         hostname: "{{ system.hostname }}"
         timezone: "{{ system.timezone }}"
 
