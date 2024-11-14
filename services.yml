@@ -42,6 +42,10 @@
       include_role:
         name: cervoevo.homelab.console_blanking
 
+    - name: "Enable avahi service"
+      include_role:
+        name: cervoevo.homelab.avahi_service
+
   # Chrony
     - name: "Manage chrony Packages"
       ansible.builtin.package:
@@ -84,28 +88,7 @@
         enabled: true
       become: true
 
-    - name: "Manage avahi Packages"
-      ansible.builtin.package:
-        name:
-          - "avahi"
-          - "nss-mdns"
-        state: "present"
-      become: true
-
-    - name: "Manage avahi Services"
-      ansible.builtin.service:
-        name: "avahi-daemon.service"
-        state: "started"
-        enabled: true
-      become: true
-
-    - name: "Manage avahi Firewall Policy"
-      ansible.posix.firewalld:
-        service: "mdns"
-        state: "enabled"
-        permanent: true
-        immediate: true
-      become: true
+  # Avahi
 
   # Manage Cockpit 
     - name: "Manage cockpit Packages"
