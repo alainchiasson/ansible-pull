@@ -148,3 +148,80 @@
       loop:
         - "pmcd.service"
         - "pmlogger.service"
+
+   # Virtualization
+ 
+    - name: "Manage Virtualization Packages"
+      ansible.builtin.package:
+        name:
+          - "libvirt"
+          - "libvirt-client"
+          - "libvirt-daemon-config-network"
+          - "qemu-kvm"
+          - "genisoimage"
+        state: "present"
+      become: true
+      tags:
+        - "kvm"
+
+    - name: "Manage Virtualization Services"
+      ansible.builtin.service:
+        name: "{{ item }}"
+        state: "started"
+        enabled: true
+      become: true
+      loop:
+        - "virtqemud.service"
+        - "virtnetworkd.service"
+      tags:
+        - "kvm"
+
+    - name: "Manage cockpit Machines Packages"
+      ansible.builtin.package:
+        name: "cockpit-machines"
+        state: "present"
+      become: true
+      notify:
+      - "Restart cockpit Socket"
+      tags:
+        - "cockpit"
+        - "kvm"
+
+    - name: "Manage network Packages"
+      ansible.builtin.package:
+        name:
+          - "bridge-utils"
+          - "python-lxml"
+        state: "present"
+      become: true
+      tags:
+        - "kvm"
+        - "network"
+
+    - name: "Manage physical bridge Device"
+      community.general.nmcli:
+        type: "bridge"
+        conn_name: "phybr0"
+        ifname: "phybr0"
+        stp: true
+        state: present
+      become: true
+      notify:
+      - "Reboot system"
+      tags:
+        - "network"
+
+    - name: "Manage physical bridge Member"
+      community.general.nmcli:
+        conn_name: "enp0s25"
+        ifname: "enp0s25"
+        type: "ethernet"
+        slave_type: "bridge"
+        master: "phybr0"
+        state: "present"
+      become: true
+      notify:
+      - "Reboot system"
+      tags:
+        - "network"
+
