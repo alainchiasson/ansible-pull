@@ -42,6 +42,10 @@
       include_role:
         name: cervoevo.homelab.console_blanking
 
+    - name: "Enable tuned service"
+      include_role:
+        name: cervoevo.homelab.tuned_service
+
     - name: "Enable avahi service"
       include_role:
         name: cervoevo.homelab.avahi_service
@@ -75,18 +79,6 @@
         state: "present"
       become: true
 
-    - name: "Manage tuned Packages"
-      ansible.builtin.package:
-        name: "tuned"
-        state: "present"
-      become: true
-      
-    - name: "Manage tuned Service"
-      ansible.builtin.service:
-        name: "tuned.service"
-        state: "started"
-        enabled: true
-      become: true
 
   # Avahi
 
