@@ -1,6 +1,16 @@
 ---
 - hosts: all
   become: true
+
+  vars_files:
+    system:
+      hostname: "services.home.chiasson.org"
+      timezone: "Etc/UTC"
+      ip: 192.168.50.3
+    network:
+      gateway: 192.168.50.1
+      dns: 192.168.50.2
+
   handlers:
 
     - name: "Restart cockpit Socket"
