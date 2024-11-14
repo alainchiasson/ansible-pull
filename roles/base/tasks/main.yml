@@ -1,0 +1,11 @@
+---
+# tasks file for base
+    - name: "Configure hostname"
+      ansible.builtin.hostname:
+        name: "{{ hostname }}"
+      become: true
+
+    - name: "Configure timezone"
+      community.general.timezone:
+        name: "{{ timezone }}"
+      become: true

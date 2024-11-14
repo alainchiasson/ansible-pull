@@ -31,15 +31,10 @@
 
   tasks:
 
-    - name: "Configure hostname"
-      ansible.builtin.hostname:
-        name: "{{ system.hostname }}"
-      become: true
-
-    - name: "Configure timezone"
-      community.general.timezone:
-        name: "{{ system.timezone }}"
-      become: true
+  - name: "Include base role"
+    include_role: base
+      hostname: "{{ system.hostname }}"
+      timezone: "{{ system.timezone }}"
 
   # Chrony
     - name: "Manage chrony Packages"

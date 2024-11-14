@@ -1,0 +1,4 @@
+---
+# defaults file for base
+hostname: "localhost.localdomain"
+timezone: "Etc/UTC"
