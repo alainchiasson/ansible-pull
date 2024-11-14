@@ -19,3 +19,18 @@
       state: "started"
       enabled: true
     become: true
+
+# Add CLI packages
+  - name: "Manage cli Packages"
+    ansible.builtin.package:
+      name:
+        - "bash"
+        - "bash-completion"
+        - "tmux"
+        - "wget"
+        - "curl"
+        - "bind9-next-utils"
+        - "lsof"
+        - "unzip"
+      state: "present"
+    become: true
