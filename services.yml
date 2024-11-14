@@ -1,115 +1,129 @@
 ---
 - hosts: all
   become: true
-  tasks:
-  - name: Drop a name
-    debug:
-      msg: "Testing with ansible-pull - services.yml"
+  handlers:
 
-# Chrony
-  - name: "Manage chrony Packages"
-    ansible.builtin.package:
-      name: "chrony"
-      state: "present"
-    become: true
-
-  - name: "Manage chrony Services"
-    ansible.builtin.service:
-      name: "chronyd.service"
-      state: "started"
-      enabled: true
-    become: true
-
-# Add CLI packages
-  - name: "Manage cli Packages"
-    ansible.builtin.package:
-      name:
-        - "bash"
-        - "bash-completion"
-        - "tmux"
-        - "wget"
-        - "curl"
-        - "bind9-next-utils"
-        - "lsof"
-        - "unzip"
-      state: "present"
-    become: true
-
-  - name: "Manage tuned Packages"
-    ansible.builtin.package:
-      name: "tuned"
-      state: "present"
-    become: true
-    
-  - name: "Manage tuned Service"
-    ansible.builtin.service:
-      name: "tuned.service"
-      state: "started"
-      enabled: true
-    become: true
-
-  - name: "Manage avahi Packages"
-    ansible.builtin.package:
-      name:
-        - "avahi"
-        - "nss-mdns"
-      state: "present"
-    become: true
-
-  - name: "Manage avahi Services"
-    ansible.builtin.service:
-      name: "avahi-daemon.service"
-      state: "started"
-      enabled: true
-    become: true
-
-  - name: "Manage avahi Firewall Policy"
-    ansible.posix.firewalld:
-      service: "mdns"
-      state: "enabled"
-      permanent: true
-      immediate: true
-    become: true
-
-# Manage Cockpit 
-  - name: "Manage cockpit Packages"
-    ansible.builtin.package:
-      name:
+    - name: "Restart cockpit Socket"
+      ansible.builtin.service:
+        name: "cockpit.socket"
+        state: "restarted"
+      become: true
+      tags:
         - "cockpit"
-        - "cockpit-selinux"
-        - "cockpit-sosreport"
-      state: "present"
-    become: true
+        - "kvm"
 
-  - name: "Manage cockpit Services"
-    ansible.builtin.service:
-      name: "cockpit.socket"
-      state: "started"
-      enabled: true
-    become: true
+    - name: "Reboot system"
+      ansible.builtin.reboot:
+        reboot_timeout: 3600
+      become: true
+      tags:
+        - "network"
 
-  - name: "Manage cockpit Firewall Policy"
-    ansible.posix.firewalld:
-      service: "cockpit"
-      state: "enabled"
-      immediate: true
-      permanent: true
-    become: true
+  tasks:
+  # Chrony
+    - name: "Manage chrony Packages"
+      ansible.builtin.package:
+        name: "chrony"
+        state: "present"
+      become: true
 
-# Manage performance cockpit
-  - name: "Manage pcp Packages"
-    ansible.builtin.package:
-      name:
-        - "pcp"
-        - "cockpit-pcp"
-      state: "present"
-    become: true
+    - name: "Manage chrony Services"
+      ansible.builtin.service:
+        name: "chronyd.service"
+        state: "started"
+        enabled: true
+      become: true
 
-  - name: "Manage pcp Services"
-    ansible.builtin.service:
-      name: "{{ item }}"
-      state: "started"
-    become: true
-    loop:
-      - "pmcd.service"
-      - "pmlogger.service"
+  # Add CLI packages
+    - name: "Manage cli Packages"
+      ansible.builtin.package:
+        name:
+          - "bash"
+          - "bash-completion"
+          - "tmux"
+          - "wget"
+          - "curl"
+          - "bind9-next-utils"
+          - "lsof"
+          - "unzip"
+        state: "present"
+      become: true
+
+    - name: "Manage tuned Packages"
+      ansible.builtin.package:
+        name: "tuned"
+        state: "present"
+      become: true
+      
+    - name: "Manage tuned Service"
+      ansible.builtin.service:
+        name: "tuned.service"
+        state: "started"
+        enabled: true
+      become: true
+
+    - name: "Manage avahi Packages"
+      ansible.builtin.package:
+        name:
+          - "avahi"
+          - "nss-mdns"
+        state: "present"
+      become: true
+
+    - name: "Manage avahi Services"
+      ansible.builtin.service:
+        name: "avahi-daemon.service"
+        state: "started"
+        enabled: true
+      become: true
+
+    - name: "Manage avahi Firewall Policy"
+      ansible.posix.firewalld:
+        service: "mdns"
+        state: "enabled"
+        permanent: true
+        immediate: true
+      become: true
+
+  # Manage Cockpit 
+    - name: "Manage cockpit Packages"
+      ansible.builtin.package:
+        name:
+          - "cockpit"
+          - "cockpit-selinux"
+          - "cockpit-sosreport"
+        state: "present"
+      become: true
+
+    - name: "Manage cockpit Services"
+      ansible.builtin.service:
+        name: "cockpit.socket"
+        state: "started"
+        enabled: true
+      become: true
+
+    - name: "Manage cockpit Firewall Policy"
+      ansible.posix.firewalld:
+        service: "cockpit"
+        state: "enabled"
+        immediate: true
+        permanent: true
+      become: true
+
+  # Manage performance cockpit
+    - name: "Manage pcp Packages"
+      ansible.builtin.package:
+        name:
+          - "pcp"
+          - "cockpit-pcp"
+        state: "present"
+      become: true
+
+    - name: "Manage pcp Services"
+      ansible.builtin.service:
+        name: "{{ item }}"
+        state: "started"
+      become: true
+      loop:
+        - "pmcd.service"
+        - "pmlogger.service"
