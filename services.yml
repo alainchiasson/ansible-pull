@@ -2,7 +2,7 @@
 - hosts: all
   become: true
 
-  vars_files:
+  vars:
     system:
       hostname: "services.home.chiasson.org"
       timezone: "Etc/UTC"
