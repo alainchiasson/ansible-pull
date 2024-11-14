@@ -30,6 +30,17 @@
         - "network"
 
   tasks:
+
+    - name: "Configure hostname"
+      ansible.builtin.hostname:
+        name: "{{ system.hostname }}"
+      become: true
+
+    - name: "Configure timezone"
+      community.general.timezone:
+        name: "{{ system.timezone }}"
+      become: true
+
   # Chrony
     - name: "Manage chrony Packages"
       ansible.builtin.package:
