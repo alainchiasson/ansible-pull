@@ -31,12 +31,12 @@
 
   tasks:
 
-  - name: "Include base role"
-    ansible.builtin.include_role: 
-      name: base
-    vars:
-      hostname: "{{ system.hostname }}"
-      timezone: "{{ system.timezone }}"
+    - name: "Include base role"
+      ansible.builtin.include_role: 
+        name: base
+      vars:
+        hostname: "{{ system.hostname }}"
+        timezone: "{{ system.timezone }}"
 
   # Chrony
     - name: "Manage chrony Packages"
