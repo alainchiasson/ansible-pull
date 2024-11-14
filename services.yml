@@ -38,6 +38,10 @@
         hostname: "{{ system.hostname }}"
         timezone: "{{ system.timezone }}"
 
+    - name: "Enable screen blanking service"
+      include_role:
+        name: cervoevo.homelab.console_blanking
+
   # Chrony
     - name: "Manage chrony Packages"
       ansible.builtin.package:
