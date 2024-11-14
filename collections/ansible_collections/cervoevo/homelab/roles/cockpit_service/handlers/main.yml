@@ -1,0 +1,7 @@
+---
+# handlers file for cockpit_service
+- name: "Restart cockpit Socket"
+  ansible.builtin.service:
+    name: "cockpit.socket"
+    state: "restarted"
+  become: true

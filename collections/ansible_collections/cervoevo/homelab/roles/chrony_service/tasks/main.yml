@@ -1,0 +1,15 @@
+---
+# tasks file for chrony_service
+# Chrony
+- name: "Manage chrony Packages"
+  ansible.builtin.package:
+    name: "chrony"
+    state: "present"
+  become: true
+
+- name: "Manage chrony Services"
+  ansible.builtin.service:
+    name: "chronyd.service"
+    state: "started"
+    enabled: true
+  become: true

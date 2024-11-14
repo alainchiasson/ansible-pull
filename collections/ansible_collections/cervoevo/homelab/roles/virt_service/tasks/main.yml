@@ -12,8 +12,7 @@
       - "genisoimage"
     state: "present"
   become: true
-  tags:
-    - "kvm"
+
 
 # Start and enable virtualization services.
 - name: "Manage Virtualization Services"
@@ -25,8 +24,6 @@
   loop:
     - "virtqemud.service"
     - "virtnetworkd.service"
-  tags:
-    - "kvm"
 
 # Add Cockpit packages for Virtualisation
 - name: "Manage cockpit Machines Packages"
@@ -36,9 +33,6 @@
   become: true
   notify:
   - "Restart cockpit Socket"
-  tags:
-    - "cockpit"
-    - "kvm"
 
 - name: "Manage network Packages"
   ansible.builtin.package:
@@ -47,9 +41,6 @@
       - "python-lxml"
     state: "present"
   become: true
-  tags:
-    - "kvm"
-    - "network"
 
 # Create a physical bridge and add a physical interface to it.
 - name: "Manage physical bridge Device"
@@ -62,8 +53,6 @@
   become: true
   notify:
   - "Reboot system"
-  tags:
-    - "network"
 
 - name: "Manage physical bridge Member"
   community.general.nmcli:
@@ -76,5 +65,3 @@
   become: true
   notify:
   - "Reboot system"
-  tags:
-    - "network"

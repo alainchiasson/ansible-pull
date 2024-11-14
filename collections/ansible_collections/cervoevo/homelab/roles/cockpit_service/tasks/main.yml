@@ -1,0 +1,45 @@
+---
+# tasks file for cockpit_service
+# Manage Cockpit 
+- name: "Manage cockpit Packages"
+  ansible.builtin.package:
+    name:
+      - "cockpit"
+      - "cockpit-selinux"
+      - "cockpit-sosreport"
+    state: "present"
+  become: true
+
+- name: "Manage cockpit Services"
+  ansible.builtin.service:
+    name: "cockpit.socket"
+    state: "started"
+    enabled: true
+  become: true
+
+- name: "Manage cockpit Firewall Policy"
+  ansible.posix.firewalld:
+    service: "cockpit"
+    state: "enabled"
+    immediate: true
+    permanent: true
+  become: true
+
+# Manage performance cockpit
+- name: "Manage pcp Packages"
+  ansible.builtin.package:
+    name:
+      - "pcp"
+      - "cockpit-pcp"
+    state: "present"
+  become: true
+
+- name: "Manage pcp Services"
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: "started"
+  become: true
+  loop:
+    - "pmcd.service"
+    - "pmlogger.service"
+

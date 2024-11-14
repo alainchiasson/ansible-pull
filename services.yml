@@ -18,16 +18,11 @@
         name: "cockpit.socket"
         state: "restarted"
       become: true
-      tags:
-        - "cockpit"
-        - "kvm"
 
     - name: "Reboot system"
       ansible.builtin.reboot:
         reboot_timeout: 3600
       become: true
-      tags:
-        - "network"
 
   tasks:
 
@@ -50,19 +45,10 @@
       include_role:
         name: cervoevo.homelab.avahi_service
 
-  # Chrony
-    - name: "Manage chrony Packages"
-      ansible.builtin.package:
-        name: "chrony"
-        state: "present"
-      become: true
+    - name: "Enable chrony service"
+      include_role:
+        name: cervoevo.homelab.chrony_service
 
-    - name: "Manage chrony Services"
-      ansible.builtin.service:
-        name: "chronyd.service"
-        state: "started"
-        enabled: true
-      become: true
 
   # Add CLI packages
     - name: "Manage cli Packages"
@@ -79,48 +65,9 @@
         state: "present"
       become: true
 
-  # Manage Cockpit 
-    - name: "Manage cockpit Packages"
-      ansible.builtin.package:
-        name:
-          - "cockpit"
-          - "cockpit-selinux"
-          - "cockpit-sosreport"
-        state: "present"
-      become: true
-
-    - name: "Manage cockpit Services"
-      ansible.builtin.service:
-        name: "cockpit.socket"
-        state: "started"
-        enabled: true
-      become: true
-
-    - name: "Manage cockpit Firewall Policy"
-      ansible.posix.firewalld:
-        service: "cockpit"
-        state: "enabled"
-        immediate: true
-        permanent: true
-      become: true
-
-  # Manage performance cockpit
-    - name: "Manage pcp Packages"
-      ansible.builtin.package:
-        name:
-          - "pcp"
-          - "cockpit-pcp"
-        state: "present"
-      become: true
-
-    - name: "Manage pcp Services"
-      ansible.builtin.service:
-        name: "{{ item }}"
-        state: "started"
-      become: true
-      loop:
-        - "pmcd.service"
-        - "pmlogger.service"
+    - name: "Enable cockpit service"
+      include_role:
+        name: cervoevo.homelab.cockpit_service
 
     - name: "Enable virtualisation service"
       include_role:
