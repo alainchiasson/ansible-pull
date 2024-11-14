@@ -32,7 +32,9 @@
   tasks:
 
   - name: "Include base role"
-    include_role: base
+    ansible.builtin.include_role: 
+      name: base
+    vars:
       hostname: "{{ system.hostname }}"
       timezone: "{{ system.timezone }}"
 
