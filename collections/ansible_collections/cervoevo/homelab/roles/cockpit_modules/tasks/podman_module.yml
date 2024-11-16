@@ -1,0 +1,8 @@
+- name: "Manage cockpit-podman Packages"
+  ansible.builtin.package:
+    name:
+      - "cockpit-podman"
+    state: "present"
+  become: true
+  notify:
+  - "Restart cockpit Socket"

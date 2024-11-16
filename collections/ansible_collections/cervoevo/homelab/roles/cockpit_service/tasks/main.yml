@@ -17,6 +17,13 @@
     enabled: true
   become: true
 
+# If Cockpit is installed, install the cockpit-machines package.
+- name: "Manage cockpit pcp Packages"
+  include_role:
+    name: cervoevo.homelab.cockpit_modules
+    tasks_from: pcp_module.yml
+  when: installed.cockpit
+
 - name: "Manage cockpit Firewall Policy"
   ansible.posix.firewalld:
     service: "cockpit"
@@ -24,22 +31,4 @@
     immediate: true
     permanent: true
   become: true
-
-# Manage performance cockpit
-- name: "Manage pcp Packages"
-  ansible.builtin.package:
-    name:
-      - "pcp"
-      - "cockpit-pcp"
-    state: "present"
-  become: true
-
-- name: "Manage pcp Services"
-  ansible.builtin.service:
-    name: "{{ item }}"
-    state: "started"
-  become: true
-  loop:
-    - "pmcd.service"
-    - "pmlogger.service"
 

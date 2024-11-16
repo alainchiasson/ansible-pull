@@ -1,0 +1,8 @@
+# Add Cockpit packages for Virtualisation
+- name: "Manage cockpit Machines Packages"
+  ansible.builtin.package:
+    name: "cockpit-machines"
+    state: "present"
+  become: true
+  notify:
+  - "Restart cockpit Socket"

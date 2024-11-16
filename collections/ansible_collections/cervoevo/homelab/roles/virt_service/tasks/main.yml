@@ -13,6 +13,12 @@
     state: "present"
   become: true
 
+# If Cockpit is installed, install the cockpit-machines package.
+- name: "Manage cockpit Machines Packages"
+  include_role:
+    name: cervoevo.homelab.cockpit_modules
+    tasks_from: machine_module.yml
+  when: installed.cockpit
 
 # Start and enable virtualization services.
 - name: "Manage Virtualization Services"
@@ -24,15 +30,6 @@
   loop:
     - "virtqemud.service"
     - "virtnetworkd.service"
-
-# Add Cockpit packages for Virtualisation
-- name: "Manage cockpit Machines Packages"
-  ansible.builtin.package:
-    name: "cockpit-machines"
-    state: "present"
-  become: true
-  notify:
-  - "Restart cockpit Socket"
 
 - name: "Manage network Packages"
   ansible.builtin.package:

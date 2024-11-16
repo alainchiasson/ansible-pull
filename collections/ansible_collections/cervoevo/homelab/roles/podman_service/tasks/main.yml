@@ -9,12 +9,12 @@
     state: "present"
   become: true
 
-- name: "Manage cockpit-podman Packages"
-  ansible.builtin.package:
-    name:
-      - "cockpit-podman"
-    state: "present"
-  become: true
+# If Cockpit is installed, install the cockpit-machines package.
+- name: "Manage cockpit Podman Packages"
+  include_role:
+    name: cervoevo.homelab.cockpit_modules
+    tasks_from: podman_module.yml
+  when: installed.cockpit
 
 - name: "Manage podman SELinux Booleans"
   ansible.posix.seboolean:
